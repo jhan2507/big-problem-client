@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 40, "column": 0}, "map": {"version":3,"sources":["file:///F:/Personal/big-problem-client/apps/learning-platform/app/api/hello/route.ts"],"sourcesContent":["export async function GET(request: Request) {\n  return new Response('Hello, from API!');\n}\n"],"names":[],"mappings":";;;;AAAO,eAAe,IAAI,OAAgB;IACxC,OAAO,IAAI,SAAS;AACtB"}}]
+}
