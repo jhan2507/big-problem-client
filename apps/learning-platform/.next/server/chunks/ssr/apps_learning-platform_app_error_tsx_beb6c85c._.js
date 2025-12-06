@@ -1,0 +1,3 @@
+module.exports=[72750,a=>{"use strict";var b=a.i(87924);function c({error:a,reset:c}){return(0,b.jsx)("div",{className:"mx-auto max-w-3xl px-4 py-8",children:(0,b.jsxs)("div",{className:"rounded-2xl border border-red-200 bg-red-50 p-6 text-red-800",children:[(0,b.jsx)("h2",{className:"text-2xl font-semibold",children:"Đã xảy ra lỗi"}),(0,b.jsx)("p",{className:"mt-2 font-mono",children:a.message}),(0,b.jsx)("button",{className:"mt-4 inline-flex items-center rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700",onClick:()=>c(),children:"Thử lại"})]})})}a.s(["default",()=>c])}];
+
+//# sourceMappingURL=apps_learning-platform_app_error_tsx_beb6c85c._.js.map

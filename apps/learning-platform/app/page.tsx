@@ -1,20 +1,16 @@
 import styles from './page.module.css';
 import { getHello } from '@big-problem-client/api-client';
 import { getPublicEnv } from '../lib/env';
-import { headers } from 'next/headers';
 
 export default async function Index() {
   const { NEXT_PUBLIC_API_BASE_URL } = getPublicEnv();
-  let baseUrl = NEXT_PUBLIC_API_BASE_URL;
-  if (!baseUrl) {
-    const hdrs = await headers();
-    const xProto = hdrs.get('x-forwarded-proto');
-    const xHost = hdrs.get('x-forwarded-host');
-    const host = xHost ?? hdrs.get('host') ?? 'localhost:3000';
-    const protocol = xProto ?? (process.env.NODE_ENV === 'production' ? 'https' : 'http');
-    baseUrl = `${protocol}://${host}`;
+  const baseUrl = NEXT_PUBLIC_API_BASE_URL || '';
+  let hello = 'N/A';
+  try {
+    hello = await getHello({ baseUrl });
+  } catch (e) {
+    hello = 'ERROR';
   }
-  const hello = await getHello({ baseUrl });
   /*
    * Replace the elements below with your own.
    *

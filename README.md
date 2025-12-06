@@ -22,7 +22,29 @@ npx nx build myproject
 
 These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+[More about running tasks in the docs »](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+
+## Learning Platform app
+
+- Project: `apps/learning-platform`
+- Frameworks: `Next.js (app dir)` and `Vite + React` co-exist for flexibility.
+ - Ports: `Vite dev :4000`, `Next server :4000`, API gateway `:8080`.
+
+### Develop
+- `npx nx run learning-platform:dev` → Vite dev server at `http://localhost:4000`.
+- `npx nx run learning-platform:start` → Next server at `http://localhost:4000` (requires `build`).
+
+### Build
+- `npx nx run learning-platform:build` → builds both targets as configured.
+- Docker: `docker compose up -d` from `big-problem-client/` runs the Next server on `:4000`.
+
+### Environment
+- `NEXT_PUBLIC_API_BASE_URL` should point to the backend (default `http://localhost:8080`).
+- `NEXT_PUBLIC_SITE_URL` should match the running host (e.g., `http://localhost:4000`).
+
+Notes
+- Use Vite for rapid component iteration; use Next for SSR/route handlers.
+- Do not store server-only secrets in client env files.
 
 ## Add new projects
 

@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "type": "module",
-  "main": "./src/index.js",
-  "types": "./src/index.d.ts",
+  "main": "./dist/libs/api-client/index.js",
+  "types": "./dist/libs/api-client/index.d.ts",
   "dependencies": {
     "tslib": "^2.3.0"
   }

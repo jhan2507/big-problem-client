@@ -1,0 +1,3 @@
+module.exports=[19117,a=>{"use strict";var b=a.i(7997);function c(){return(0,b.jsx)("div",{className:"mx-auto max-w-3xl px-4 py-8",children:(0,b.jsxs)("div",{className:"rounded-2xl border border-slate-200 bg-white p-6 shadow-sm",children:[(0,b.jsx)("div",{className:"h-6 w-48 animate-pulse rounded bg-slate-200"}),(0,b.jsx)("div",{className:"mt-4 h-4 w-64 animate-pulse rounded bg-slate-200"}),(0,b.jsxs)("div",{className:"mt-4 flex gap-3",children:[(0,b.jsx)("div",{className:"h-9 w-24 animate-pulse rounded bg-slate-200"}),(0,b.jsx)("div",{className:"h-9 w-24 animate-pulse rounded bg-slate-200"})]})]})})}a.s(["default",()=>c])}];
+
+//# sourceMappingURL=apps_learning-platform_app_loading_tsx_1310de8c._.js.map

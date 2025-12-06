@@ -4,6 +4,37 @@
   "sourceRoot": "apps/learning-platform",
   "projectType": "application",
   "tags": ["scope:app"],
-  "// targets": "to see all targets run: nx show project learning-platform --web",
-  "targets": {}
+  "targets": {
+    "dev": {
+      "executor": "@nx/vite:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "learning-platform:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "learning-platform:build:development",
+          "hmr": true
+        },
+        "production": {
+          "buildTarget": "learning-platform:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "build": {
+      "executor": "@nx/next:build",
+      "outputs": ["{projectRoot}/.next"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/learning-platform"
+      }
+    },
+    "start": {
+      "executor": "@nx/next:start",
+      "options": {
+        "port": 4000
+      }
+    }
+  }
 }

@@ -8,7 +8,9 @@ WORKDIR /app
 COPY nx.json tsconfig.base.json eslint.config.mjs jest.preset.cjs jest.config.ts ./
 COPY apps/learning-platform ./apps/learning-platform
 COPY libs ./libs
-RUN npx nx run learning-platform:build
+# Build Next.js app (not Vite)
+WORKDIR /app/apps/learning-platform
+RUN node ../../node_modules/next/dist/bin/next build
 
 FROM node:20-alpine AS runner
 WORKDIR /app
@@ -20,6 +22,6 @@ COPY --from=build /app/apps/learning-platform/.next ./apps/learning-platform/.ne
 COPY --from=build /app/apps/learning-platform/public ./apps/learning-platform/public
 # Start from app directory using root node_modules
 WORKDIR /app/apps/learning-platform
-EXPOSE 3000
-CMD ["node", "../../node_modules/next/dist/bin/next", "start", "-p", "3000"]
+EXPOSE 4000
+CMD ["node", "../../node_modules/next/dist/bin/next", "start", "-p", "4000"]
 

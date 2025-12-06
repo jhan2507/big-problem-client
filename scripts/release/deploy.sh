@@ -7,7 +7,7 @@ ENVIRONMENT=${1:-""}
 VERSION_FILE="../VERSION"
 VERSION=$(cat "$VERSION_FILE" 2>/dev/null || echo "latest")
 REGISTRY=${DOCKER_REGISTRY:-""}
-IMAGE_PREFIX=${IMAGE_PREFIX:-"market"}
+IMAGE_PREFIX=${IMAGE_PREFIX:-"big-problem-client"}
 
 if [ -z "$ENVIRONMENT" ]; then
     echo "❌ Usage: ./scripts/release/deploy.sh <environment>"
@@ -46,9 +46,9 @@ if [ ! -f "$ENV_FILE" ]; then
 fi
 
 # Create docker-compose override file
-COMPOSE_FILE="docker-compose.yml"
+COMPOSE_FILE_ARGS="-f docker-compose.yml"
 if [ -f "docker-compose.${ENVIRONMENT}.yml" ]; then
-    COMPOSE_FILE="-f docker-compose.yml -f docker-compose.${ENVIRONMENT}.yml"
+    COMPOSE_FILE_ARGS="-f docker-compose.yml -f docker-compose.${ENVIRONMENT}.yml"
 fi
 
 # Set image tags
@@ -58,31 +58,18 @@ if [ ! -z "$REGISTRY" ]; then
     export IMAGE_PREFIX=$IMAGE_PREFIX
 fi
 
-# Pull latest images if using registry
 if [ ! -z "$REGISTRY" ]; then
-    echo "📥 Pulling images from registry..."
-    SERVICES=(
-        "market_data_service"
-        "market_analyzer_service"
-        "price_service"
-        "signal_service"
-        "notification_service"
-    )
-    
-    for service in "${SERVICES[@]}"; do
-        service_name=$(echo "$service" | tr '_' '-')
-        image_name="${IMAGE_PREFIX}-${service_name}"
-        full_image="${REGISTRY}/${image_name}:${VERSION}"
-        
-        echo "📥 Pulling ${full_image}..."
-        docker pull "${full_image}" || echo "⚠️  Failed to pull ${full_image}, using local image"
-    done
+    echo "📥 Pulling client image from registry..."
+    image_name="${IMAGE_PREFIX}-learning-platform"
+    full_image="${REGISTRY}/${image_name}:${VERSION}"
+    echo "📥 Pulling ${full_image}..."
+    docker pull "${full_image}" || echo "⚠️  Failed to pull ${full_image}, using local image"
     echo ""
 fi
 
 # Deploy
-echo "🚀 Deploying services..."
-docker-compose $COMPOSE_FILE --env-file "$ENV_FILE" up -d
+echo "🚀 Deploying client..."
+docker compose $COMPOSE_FILE_ARGS --env-file "$ENV_FILE" up -d --build
 
 # Wait for services to be healthy
 echo ""
@@ -97,11 +84,10 @@ echo "🏥 Running health check..."
 # Show status
 echo ""
 echo "📊 Deployment status:"
-docker-compose $COMPOSE_FILE ps
+docker compose $COMPOSE_FILE_ARGS ps
 
 echo ""
 echo "✅ Deployment to $ENVIRONMENT completed!"
 echo ""
 echo "📊 View logs: ./scripts/monitor/logs.sh"
 echo "📈 Monitor: ./scripts/monitor/monitor.sh"
-

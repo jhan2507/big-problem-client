@@ -6,61 +6,38 @@ set -e
 VERSION_FILE="../VERSION"
 VERSION=$(cat "$VERSION_FILE" 2>/dev/null || echo "0.0.0")
 REGISTRY=${DOCKER_REGISTRY:-""}
-IMAGE_PREFIX=${IMAGE_PREFIX:-"market"}
+IMAGE_PREFIX=${IMAGE_PREFIX:-"big-problem-client"}
 
 echo "🔨 Building Docker images..."
 echo "Version: $VERSION"
 echo ""
 
-# Build images với tags
-SERVICES=(
-    "market_data_service"
-    "market_analyzer_service"
-    "price_service"
-    "signal_service"
-    "notification_service"
-)
+image_name="${IMAGE_PREFIX}-learning-platform"
+if [ ! -z "$REGISTRY" ]; then
+    full_image="${REGISTRY}/${image_name}"
+else
+    full_image="$image_name"
+fi
 
-for service in "${SERVICES[@]}"; do
-    service_name=$(echo "$service" | tr '_' '-')
-    image_name="${IMAGE_PREFIX}-${service_name}"
-    
-    if [ ! -z "$REGISTRY" ]; then
-        full_image="${REGISTRY}/${image_name}"
-    else
-        full_image="$image_name"
-    fi
-    
-    echo "📦 Building $service..."
-    echo "   Image: ${full_image}:${VERSION}"
-    echo "   Image: ${full_image}:latest"
-    
-    docker build \
-        -f "services/${service}/Dockerfile" \
-        -t "${full_image}:${VERSION}" \
-        -t "${full_image}:latest" \
-        .
-    
-    echo "✅ $service built successfully"
-    echo ""
-done
+echo "📦 Building learning-platform..."
+echo "   Image: ${full_image}:${VERSION}"
+echo "   Image: ${full_image}:latest"
+
+docker build \
+    -f "apps/learning-platform/Dockerfile" \
+    -t "${full_image}:${VERSION}" \
+    -t "${full_image}:latest" \
+    .
+
+echo "✅ learning-platform built successfully"
+echo ""
 
 echo "✅ All images built successfully!"
 echo ""
 echo "📋 Built images:"
-for service in "${SERVICES[@]}"; do
-    service_name=$(echo "$service" | tr '_' '-')
-    image_name="${IMAGE_PREFIX}-${service_name}"
-    if [ ! -z "$REGISTRY" ]; then
-        full_image="${REGISTRY}/${image_name}"
-    else
-        full_image="$image_name"
-    fi
-    echo "  - ${full_image}:${VERSION}"
-    echo "  - ${full_image}:latest"
-done
+echo "  - ${full_image}:${VERSION}"
+echo "  - ${full_image}:latest"
 
 echo ""
 echo "💡 To push images: ./scripts/release/push.sh"
 echo "💡 To deploy: ./scripts/release/deploy.sh <environment>"
-
