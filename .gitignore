@@ -5,6 +5,10 @@ dist
 tmp
 out-tsc
 
+# Next.js
+.next
+apps/learning-platform/.next
+
 # dependencies
 node_modules
 
@@ -42,3 +46,16 @@ Thumbs.db
 .nx/workspace-data
 .cursor/rules/nx-rules.mdc
 .github/instructions/nx.instructions.md
+
+# Env
+.env
+.env.*
+!.env.example
+
+# Logs
+pnpm-debug.log
+*.log
+
+# Turbopack/Turbo
+.turbo
+.turbopack
